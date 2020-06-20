@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style>
+        body {
+            overflow-x: hidden;
+            margin-right: calc(-1 * (100vw - 100%));
+            background-color: #f5f5f5;
+        }
+
+        .nav-link {color: #f00;}
+        .nav-link:hover {color: #0f0;}
+    </style>
+</head>
+<body>
+    <header th:insert="blocks/navbar :: topBar"></header>
+    <div class="container" style="margin-top:70px">
+        <div class="row">
+            <div class="col-2" th:insert="blocks/navbar :: sideBar"></div>
+            <div class="col-10 pl-0">
+                <div class="bg-white rounded border">
+                    <h4 class="mt-2 ml-3" th:text="${user.firstName} + ' ' + ${user.lastName} + ' - ' + ${type}"></h4>
+                    <hr/>
+                    <ul class="list-group list-group-flush" th:each="item : ${sub}">
+                        <li class="list-group-item">
+                            <div class="media">
+                                <div class="bg-secondary rounded" style="width: 100px; height: 100px;">
+                                    <img class="rounded" src="/image/avatar.jpg" style="width: 100px; height: 100px;"/>
+                                </div>
+                                <div class="media-body ml-2">
+                                    <a th:href="'/user/' + ${item.id}"><h5 class="mt-0" th:text="${item.firstName} + ' ' + ${item.lastName}"></h5></a>
+                                    <a href="#">Написать сообщение</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="mt-5 mb-5 text-secondary" align="center" th:if="${count} == 0 and ${type} == Подписки">Нет подписок</div>
+                    <div class="mt-5 mb-5 text-secondary" align="center" th:if="${count} == 0 and ${type} == Подписчики">Нет подписчиков</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

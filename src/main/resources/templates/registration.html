@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style>
+        html,
+        body {
+          height: 100%;
+        }
+        body {
+          display: -ms-flexbox;
+          display: flex;
+          -ms-flex-align: center;
+          align-items: center;
+          padding-top: 0px;
+          padding-bottom: 40px;
+          background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <article class="card-body mx-auto" style="max-width: 400px;">
+        <h4 class="card-title mt-3 text-center">Регистрация</h4>
+        <form th:action="@{/registration}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                </div>
+                <input name="firstName" class="form-control" placeholder="Имя" type="text" required>
+            </div>
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                </div>
+                <input name="lastName" class="form-control" placeholder="Фамилия" type="text" required>
+            </div>
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                </div>
+                <input name="username" th:class="'form-control ' + ${emailExists}" placeholder="Email address" type="email" required>
+                <div th:if="${emailExists} == 'is-invalid'" class="invalid-feedback">
+                    Пользователь с данным email уже существует
+                </div>
+            </div>
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                </div>
+                <input name="password" class="form-control" placeholder="Password" type="password" required>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block"> Зарегистрироваться </button>
+            </div>
+            <p class="text-center">Есть аккаунт? <a href="/login">Войти</a> </p>
+        </form>
+    </article>
+</body>
+</html>

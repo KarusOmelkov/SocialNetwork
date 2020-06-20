@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style>
+        body {
+            overflow-x: hidden;
+            margin-right: calc(-1 * (100vw - 100%));
+            background-color: #f5f5f5;
+        }
+
+        .nav-link {color: #f00;}
+        .nav-link:hover {color: #0f0;}
+    </style>
+</head>
+<body>
+    <header th:insert="blocks/navbar :: topBar"></header>
+    <div class="container" style="margin-top:70px">
+        <div class="row">
+            <div class="col-2" th:insert="blocks/navbar :: sideBar"></div>
+            <div class="col-10 pl-0">
+                <div class="bg-white rounded pl-3 pb-0 border">
+                    <div class="row p-2 col">
+                        <div style="width: 200px; height: 200px;">
+                            <img class="rounded" src="/image/avatar.jpg" style="width: 200px; height: 200px;"/>
+                        </div>
+                        <div class="col">
+                            <h4 th:text="${user.firstName} + ' ' + ${user.lastName}"></h4>
+                            <p th:text="${user.aboutMe}">Описание личных качеств, о себе и прочее.</p>
+                            <a th:if="${user.id} == ${currentUser.id}" class="text-muted" href="/user/edit">Редактировать</a>
+                        </div>
+                    </div>
+                    <hr class="mr-3 mb-0"/>
+                    <div class="row pt-2 pb-2">
+                        <div class="w-50 text-center">
+                            <h3 class="text-info mr-3">Подписок: <a th:href="'/user/subscriptions/' + ${user.id}"><span class="text-body" th:text="${subscriptionsCount}"></span></a></h3>
+                        </div>
+                        <div class="w-50 text-center">
+                            <h3 class="text-info mr-5">Подписчиков: <a th:href="'/user/subscribers/' + ${user.id}"><span class="text-body" th:text="${subscribersCount}"></span></a></h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded mt-2 mb-2" th:if="${user.id} != ${currentUser.id}" th:switch="${isSubscriber}">
+                    <a class="btn btn-light btn-lg btn-block border" role="button" th:case="true" th:href="'/user/unsubscribe/' + ${user.id}">Отписаться</a>
+                    <a class="btn btn-info btn-lg btn-block border" role="button" th:case="false" th:href="'/user/subscribe/' + ${user.id}">Подписаться</a>
+                </div>
+                <div class="bg-white rounded mt-2 mb-2" th:if="${user.id} == ${currentUser.id}">
+                    <a class="btn btn-outline-primary btn-lg btn-block" role="button" href="/editor">Написать статью</a>
+                </div>
+                <div th:each="item : ${articles}" class="bg-white rounded pb-0 border mb-2">
+                    <div class="media p-2">
+                        <div class="bg-secondary rounded ml-0" style="width: 300px; height: 220px;" th:switch="${item.category}">
+                            <img th:case="'Личный' + ' ' + 'блог'" class="rounded" src="/image/blog.jpg" style="width: 300px; height: 220px;"/>
+                            <img th:case="Спорт" class="rounded" src="/image/sport.jpg" style="width: 300px; height: 220px;"/>
+                            <img th:case="Еда" class="rounded" src="/image/food.jpg" style="width: 300px; height: 220px;"/>
+                            <img th:case="Путешествия" class="rounded" src="/image/travel.jpg" style="width: 300px; height: 220px;"/>
+                            <img th:case="Музыка" class="rounded" src="/image/music.jpg" style="width: 300px; height: 220px;"/>
+                            <img th:case="Красота" class="rounded" src="/image/beautiful.jpg" style="width: 300px; height: 220px;"/>
+                            <img th:case="Литература" class="rounded" src="/image/literature.jpg" style="width: 300px; height: 220px;"/>
+                            <img th:case="Кино" class="rounded" src="/image/film.jpg" style="width: 300px; height: 220px;"/>
+                            <img th:case="Юмор" class="rounded" src="/image/humor.jpg" style="width: 300px; height: 220px;"/>
+                            <img th:case="Игры" class="rounded" src="/image/games.jpg" style="width: 300px; height: 220px;"/>
+                        </div>
+                        <div class="media-body ml-3">
+                            <div class="row">
+                                <p th:text="${item.category}" class="text-muted mb-0 col-6"></p>
+                                <a th:href="'/user/' + ${item.author.id}" th:text="${item.author.firstName} + ' ' + ${item.author.lastName}" class="text-right mb-0 col-6 pr-4"></a>
+                            </div>
+                            <h4><a th:href="'/article/' + ${item.id}" th:text="${item.title}"></a></h4>
+                            <p th:text="${item.annotation}"></p>
+                            <a th:href="'/article/' + ${item.id}">Читать далее...</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

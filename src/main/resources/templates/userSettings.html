@@ -1,0 +1,49 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style>
+        body {
+            overflow-x: hidden;
+            margin-right: calc(-1 * (100vw - 100%));
+            background-color: #f5f5f5;
+        }
+
+        .nav-link {color: #f00;}
+        .nav-link:hover {color: #0f0;}
+    </style>
+</head>
+<body>
+    <header th:insert="blocks/navbar :: topBar"></header>
+    <div class="container" style="margin-top:70px">
+        <div class="row">
+            <div class="col-2" th:insert="blocks/navbar :: sideBar"></div>
+            <div class="col-10 pl-0">
+                <div class="bg-white rounded border">
+                    <div class="bg-light pt-2 rounded-top" style="height: 50px;"><h3 class="ml-4">Основное</h3></div>
+                    <hr class="mt-0">
+                    <div class="alert alert-success ml-3 mr-3" role="alert" th:if="${saved} == true">
+                        Изменения сохранены — Новые данные будут отражены на Вашей странице.
+                    </div>
+                    <form action="/edit" method="post">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <div class="row">
+                            <div class="row col-md-8 offset-md-2 w-75 p-3">
+                                <p class="mr-1 text-secondary">О себе:</p>
+                                <div class="col">
+                                    <textarea class="form-control" rows="5" style="resize: none;" name="aboutMe" th:text="${aboutMe}"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="ml-3 mr-3 mb-0">
+                        <div class="row col-md-2 offset-md-5 justify-content-center">
+                            <input type="submit" class="btn btn-primary btn-sm mt-3 mb-1" style="width: 200px;" value="Сохранить"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
