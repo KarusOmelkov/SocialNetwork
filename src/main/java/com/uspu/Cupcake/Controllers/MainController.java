@@ -8,6 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -70,5 +71,48 @@ public class MainController {
         return "search";
     }
 
+    @GetMapping("/setting")
+    public String setting(
+            @AuthenticationPrincipal User currentUser,
+            Model model
+    ){
+        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("saved", false);
+        return "settings";
+    }
+
+    @PostMapping("/setting")
+    public String saveSettings(
+            @AuthenticationPrincipal User currentUser,
+            @RequestParam String firstName,
+            @RequestParam String lastName,
+            @RequestParam String email,
+            @RequestParam String oldPassword,
+            @RequestParam String newPassword,
+            Model model
+    ){
+        currentUser.setFirstName(firstName);
+        currentUser.setLastName(lastName);
+        if (!email.equals("")){
+            currentUser.setUsername(email);
+        }
+        if (!oldPassword.equals("")){
+            if (currentUser.getPassword().equals(oldPassword) && !newPassword.equals("")){
+                currentUser.setPassword(newPassword);
+            } else if (newPassword.equals("")){
+                model.addAttribute("currentUser", currentUser);
+                model.addAttribute("errorNewPassword", true);
+                return "settings";
+            } else {
+                model.addAttribute("currentUser", currentUser);
+                model.addAttribute("errorPassword", true);
+                return "settings";
+            }
+        }
+        userRepository.save(currentUser);
+        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("saved", true);
+        return "settings";
+    }
 
 }

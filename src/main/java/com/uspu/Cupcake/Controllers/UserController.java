@@ -34,7 +34,7 @@ public class UserController {
         model.addAttribute("subscribersCount", user.getSubscribers().size());
         model.addAttribute("isSubscriber", user.getSubscribers().contains(currentUser));
         model.addAttribute("user", user);
-        model.addAttribute("articles", userService.article(currentUser));
+        model.addAttribute("articles", userService.article(user));
         return "profile";
     }
 

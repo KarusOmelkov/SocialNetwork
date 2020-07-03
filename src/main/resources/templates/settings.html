@@ -1,0 +1,70 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style>
+        body {
+            overflow-x: hidden;
+            margin-right: calc(-1 * (100vw - 100%));
+            background-color: #f5f5f5;
+        }
+
+        .nav-link {color: #f00;}
+        .nav-link:hover {color: #0f0;}
+    </style>
+</head>
+<body>
+<header th:insert="blocks/navbar :: topBar"></header>
+<div class="container" style="margin-top:70px">
+    <div class="row">
+        <div class="col-2" th:insert="blocks/navbar :: sideBar"></div>
+        <div class="col-10 pl-0">
+            <div class="bg-white rounded border">
+                <div class="bg-light pt-2 rounded-top" style="height: 50px;"><h3 class="ml-4">Основное</h3></div>
+                <hr class="mt-0">
+                <div class="alert alert-success ml-3 mr-3" role="alert" th:if="${saved} == true">
+                    Изменения сохранены — Новые данные будут отражены на Вашей странице.
+                </div>
+                <div class="alert alert-danger ml-3 mr-3" role="alert" th:if="${errorPassword} == true">
+                    Пароль не изменён, так как прежний пароль введён неправильно.
+                </div>
+                <div class="alert alert-danger ml-3 mr-3" role="alert" th:if="${errorNewPassword} == true">
+                    Пароль не изменён, так как новый пароль не введен.
+                </div>
+                <form action="/setting" method="post">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <div class="form-group ml-5 mr-5">
+                        <label for="name">Имя</label>
+                        <textarea class="form-control text-body" rows="1" style="resize: none;" name="firstName" id="name" th:text="${currentUser.firstName}"></textarea>
+                    </div>
+                    <hr class="mb-0">
+                    <div class="form-group ml-5 mr-5 mt-3">
+                        <label for="family">Фамилия</label>
+                        <textarea class="form-control text-body" rows="1" style="resize: none;" name="lastName" id="family" th:text="${currentUser.lastName}"></textarea>
+                    </div>
+                    <hr class="mb-0">
+                    <div class="form-group ml-5 mr-5 mt-3">
+                        <label for="email">Почта</label>
+                        <input class="form-control text-body" type="email" name="email" id="email" th:placeholder="${currentUser.username}">
+                    </div>
+                    <hr class="mb-0">
+                    <div class="form-group ml-5 mr-5 mt-3">
+                        <label for="password">Старый пароль</label>
+                        <input class="form-control text-body" type="password" name="oldPassword" id="password">
+                    </div>
+                    <div class="form-group ml-5 mr-5">
+                        <label for="newPassword">Новый пароль</label>
+                        <input class="form-control text-body" type="password" name="newPassword" id="newPassword">
+                    </div>
+                    <hr class="mb-0">
+                    <div class="row col-md-2 offset-md-5 justify-content-center">
+                        <input type="submit" class="btn btn-primary btn-sm mt-3 mb-1" style="width: 200px;" value="Сохранить"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
