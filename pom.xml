@@ -86,6 +86,11 @@
 					<url>${env.JDBC_DATABASE_URL}</url>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.6</version>
+			</plugin>
 		</plugins>
 	</build>
 
